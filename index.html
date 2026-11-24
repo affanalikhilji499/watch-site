@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Watch Page</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #111; color: #fff; margin: 0; padding: 20px; text-align: center; }
+    #searchBox { width: 90%; max-width: 450px; padding: 12px; font-size: 16px; border-radius: 6px; border: none; margin-bottom: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 15px; max-width: 900px; margin: auto; }
+    .card { background: #1e1e1e; padding: 10px; border-radius: 8px; }
+    .card img { width: 100%; height: 220px; object-fit: cover; border-radius: 6px; }
+    .btn { display: inline-block; margin-top: 8px; padding: 8px 14px; background: red; color: #fff; text-decoration: none; border-radius: 5px; }
+  </style>
+</head>
+<body>
+
+  <h2>Search Videos</h2>
+  <input type="text" id="searchBox" onkeyup="searchList()" placeholder="Type video name...">
+
+  <div class="grid" id="listBox"></div>
+
+  <script>
+    const videos = [
+      {
+        title: "Sample Video 1",
+        poster: "https://via.placeholder.com/300x400?text=Poster+1",
+        url: "https://vidhidepro.com/v/EXAMPLE1"
+      }
+    ];
+
+    function showVideos(data) {
+      const box = document.getElementById("listBox");
+      box.innerHTML = "";
+      data.forEach(v => {
+        const link = "watch.html?title=" + encodeURIComponent(v.title) + "&url=" + encodeURIComponent(v.url);
+        box.innerHTML += `
+          <div class="card">
+            <img src="${v.poster}" alt="${v.title}">
+            <h4>${v.title}</h4>
+            <a class="btn" href="${link}">Watch</a>
+          </div>
+        `;
+      });
+    }
+
+    function searchList() {
+      const q = document.getElementById("searchBox").value.toLowerCase();
+      const filtered = videos.filter(v => v.title.toLowerCase().includes(q));
+      showVideos(filtered);
+    }
+
+    showVideos(videos);
+  </script>
+
+</body>
+</html>
